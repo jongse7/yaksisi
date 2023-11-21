@@ -55,6 +55,7 @@ class Calendar extends StatelessWidget {
       }
     },
         ),
+      daysOfWeekHeight:height * 0.06,
       rowHeight: height * 0.125,
       locale: "ko_KR",
       focusedDay: focusedDay,

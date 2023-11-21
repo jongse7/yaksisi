@@ -1,3 +1,5 @@
+// 하단 네비게이터 바
+
 import 'package:flutter/material.dart';
 import 'package:yaksisi/screen/calendar_screen.dart';
 import 'package:yaksisi/screen/camera_screen.dart';
@@ -11,7 +13,7 @@ class NavigatorBar extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return DefaultTabController(
-      length: 3,
+      length: 3, // 페이지 개수
       child: Scaffold(
         body: TabBarView(
           children: [
@@ -22,7 +24,12 @@ class NavigatorBar extends StatelessWidget {
         ),
         extendBodyBehindAppBar: true, // add this line
         bottomNavigationBar: Container(
-          color: Colors.black,
+          decoration: BoxDecoration(
+            color: Colors.black,
+            border: Border.all(
+              color: Colors.black,
+            )
+          ),
           child: Container(
             height: height * 0.15,
             child: TabBar(
