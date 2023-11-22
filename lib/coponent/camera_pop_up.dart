@@ -5,17 +5,41 @@ class CameraPopUp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return AlertDialog(
-      insetPadding: const  EdgeInsets.fromLTRB(0,80,0, 80),
+      backgroundColor: Color(0xff3D3D3D),
       alignment: Alignment.bottomRight,
-      actions: [
-        TextButton(
-          child: const Text('확인'),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-      ],
+      actionsAlignment: MainAxisAlignment.center,
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          TextButton(
+            child: const Text(
+              '카메라 촬영',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 10,
+              ),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          Container(
+            color: Color(0xff616161),
+            width: width * 0.3,
+            height: height * 0.001,
+          ),
+          TextButton(
+            child: const Text('직접 작성'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      ),
     );
   }
 }
