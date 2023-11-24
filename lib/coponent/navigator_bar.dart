@@ -13,13 +13,15 @@ class NavigatorBar extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    return DefaultTabController(
-      length: 3, // 페이지 개수
-      child: Stack(
-        children: [
-          BottomTapBar(),
-          CameraButton(),
-        ],
+    return Scaffold(
+      body: DefaultTabController(
+        length: 3, // 페이지 개수
+        child: Stack(
+          children: [
+            BottomTapBar(),
+            CameraButton(),
+          ],
+        ),
       ),
     );
   }
@@ -61,7 +63,7 @@ class BottomTapBar extends StatelessWidget {
                 width: width * 0.018,
               ),
               borderRadius: BorderRadius.circular(width * 0.1),
-              insets: EdgeInsets.symmetric(horizontal: -width * 0.03),
+              insets: EdgeInsets.symmetric(horizontal: width * 0.05),
             ),
             indicatorPadding: EdgeInsets.only(bottom: height * 0.016),
             //label color
