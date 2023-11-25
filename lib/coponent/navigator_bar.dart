@@ -38,6 +38,7 @@ class BottomTapBar extends StatelessWidget {
       // 캘린더와 바텀바 사이에 아주 얇게 배경색이 보여서 검정색으로 설정
       backgroundColor: Colors.black,
       body: TabBarView(
+        physics: NeverScrollableScrollPhysics(),
         children: [
           CalendarScreen(), // 달력 페이지
           EmptyScreen(),

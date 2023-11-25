@@ -25,7 +25,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
-    return Scaffold(
+    return Scaffold(// 날짜 overflow 방지 코드
         backgroundColor: Colors.black,
         body: SafeArea(
           child: Calendar(
