@@ -1,5 +1,6 @@
+import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:flutter/material.dart';
-
+import '../coponent/group_button.dart';
 import '../coponent/pill_name_textfield.dart';
 
 class ScheduleWrite extends StatefulWidget {
@@ -187,15 +188,18 @@ class VariousOfPills extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<String> buttonLables = ['1정', '2정', '3정', '4정'];
+    List<int> buttonValues = [1, 2, 3, 4];
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+
     return _Frame(
       contentTitle: "투약 개수",
       middleContent: Row(
         children: [
-          ElevatedButton(
-            onPressed: () {},
-            child: Text('1정'),
+          GroupButton(
+            buttonLables: buttonLables,
+            buttonValues: buttonValues,
           ),
         ],
       ),
@@ -209,9 +213,25 @@ class _SelectPillNumber extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<String> dayNumder = ['일 1회', '일 2회', '일 3회'];
+    List<int> dayValue = [1, 2, 3];
+    List<String> weekNumder = ['주 1회', '주 2회', '주 3회'];
+    List<int> weekValue = [1, 2, 3];
+
     return _Frame(
       contentTitle: "투약 횟수 선택",
-      middleContent: Container(),
+      middleContent: Column(
+        children: [
+          GroupButton(
+            buttonLables: dayNumder,
+            buttonValues: dayValue,
+          ),
+          GroupButton(
+            buttonLables: weekNumder,
+            buttonValues: weekValue,
+          ),
+        ],
+      ),
     );
   }
 }

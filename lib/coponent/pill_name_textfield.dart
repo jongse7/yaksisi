@@ -22,7 +22,7 @@ class PillNameTextField extends StatelessWidget {
       child: TextField(
         showCursor: false,
         style: TextStyle(color: Colors.black),
-        textAlign: TextAlign.start,
+        textAlign: TextAlign.center,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.zero,
           hintText: "약 이름",
