@@ -1,7 +1,7 @@
 // 캘린더 위젯
 
 import 'package:intl/intl.dart';
-import '../const/color.dart';
+import '../../const/color.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 

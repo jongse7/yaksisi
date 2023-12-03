@@ -1,7 +1,8 @@
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:flutter/material.dart';
-import '../coponent/group_button.dart';
-import '../coponent/pill_name_textfield.dart';
+import 'package:yaksisi/screen/schedule_write_screen/widget/memo.dart';
+import 'widget/group_button.dart';
+import 'widget/pill_name_textfield.dart';
 
 class ScheduleWrite extends StatefulWidget {
   const ScheduleWrite({Key? key}) : super(key: key);
@@ -30,7 +31,7 @@ class _ScheduleWriteState extends State<ScheduleWrite> {
                   _Title(),
                   _Line(),
                   _PillName(
-                    onChanged: changeSearchText,
+                    onChanged: changePillName,
                     pillName: pillName,
                   ),
                   _Line(),
@@ -44,7 +45,7 @@ class _ScheduleWriteState extends State<ScheduleWrite> {
                   _Line(),
                   _SelectTime(),
                   _Line(),
-                  _Memo(),
+                  _Memo(onChanged: changeMemo,memo: memo,),
                 ],
               ),
             ),
@@ -56,10 +57,19 @@ class _ScheduleWriteState extends State<ScheduleWrite> {
 
   String pillName = '';
 
-  // textfield 입력값 받는 콜백
-  void changeSearchText(value) {
+  // pillName 입력값 받는 콜백
+  void changePillName(value) {
     setState(() {
       pillName = value;
+    });
+  }
+
+  String memo = '';
+
+  // memo 입력값 받는 콜백
+  void changeMemo(value) {
+    setState(() {
+      memo = value;
     });
   }
 }
@@ -198,6 +208,7 @@ class VariousOfPills extends StatelessWidget {
       middleContent: Row(
         children: [
           GroupButton(
+            buttonWidth: width * 0.14,
             buttonLables: buttonLables,
             buttonValues: buttonValues,
           ),
@@ -213,22 +224,19 @@ class _SelectPillNumber extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     List<String> dayNumder = ['일 1회', '일 2회', '일 3회'];
     List<int> dayValue = [1, 2, 3];
-    List<String> weekNumder = ['주 1회', '주 2회', '주 3회'];
-    List<int> weekValue = [1, 2, 3];
 
     return _Frame(
       contentTitle: "투약 횟수 선택",
-      middleContent: Column(
+      middleContent: Row(
         children: [
           GroupButton(
+            buttonWidth: width * 0.2,
             buttonLables: dayNumder,
             buttonValues: dayValue,
-          ),
-          GroupButton(
-            buttonLables: weekNumder,
-            buttonValues: weekValue,
           ),
         ],
       ),
@@ -242,9 +250,46 @@ class _SelectDay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    List<String> dayOfTheWeek1 = [
+      '월',
+      '화',
+      '수',
+      '목',
+    ];
+    List<int> value1 = [
+      1,
+      2,
+      3,
+      4,
+    ];
+    List<String> dayOfTheWeek2 = [
+      '금',
+      '토',
+      '일',
+    ];
+    List<int> value2 = [
+      1,
+      2,
+      3,
+    ];
     return _Frame(
       contentTitle: "투약 요일 선택",
-      middleContent: Container(),
+      middleContent: Column(
+        children: [
+          GroupButton2(
+            buttonWidth: width * 0.12,
+            buttonLables: dayOfTheWeek1,
+            buttonValueList: value1,
+          ),
+          GroupButton2(
+            buttonWidth: width * 0.12,
+            buttonLables: dayOfTheWeek2,
+            buttonValueList: value2,
+          )
+        ],
+      ),
     );
   }
 }
@@ -255,21 +300,24 @@ class _SelectTime extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _Frame(
-      contentTitle: "투약 시간 선택",
-      middleContent: Container(),
-    );
+    return _Frame(contentTitle: "투약 시간 선택", middleContent: Container());
   }
 }
 
 class _Memo extends StatelessWidget {
-  const _Memo({super.key});
+  final ValueChanged onChanged;
+  final String memo;
+
+  const _Memo({required this.onChanged, required this.memo, super.key});
 
   @override
   Widget build(BuildContext context) {
     return _Frame(
       contentTitle: "메모",
-      middleContent: Container(),
+      middleContent: Memo(
+        onChanged: onChanged,
+        memo: memo,
+      ),
     );
   }
 }

@@ -1,7 +1,7 @@
 // 카메라 촬영/ 직접 작성 버튼 팝업
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:yaksisi/screen/schedule_write.dart';
+import 'package:yaksisi/screen/schedule_write_screen/schedule_write.dart';
 
 class CameraPopUp extends StatefulWidget {
   const CameraPopUp({super.key});

@@ -22,9 +22,8 @@ class PillNameTextField extends StatelessWidget {
       child: TextField(
         showCursor: false,
         style: TextStyle(color: Colors.black),
-        textAlign: TextAlign.center,
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.zero,
+          contentPadding: EdgeInsets.only(left: width * 0.05, bottom: width * 0.002),
           hintText: "약 이름",
           hintStyle: defaultTextStyle,
           prefixText: pillName,

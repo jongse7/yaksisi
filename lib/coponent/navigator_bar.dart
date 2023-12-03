@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:yaksisi/coponent/camera_pop_up.dart';
-import 'package:yaksisi/screen/calendar_screen.dart';
+import 'package:yaksisi/screen/calendar_screen/calendar_screen.dart';
 import 'package:yaksisi/screen/empty_screen.dart';
 import 'package:yaksisi/screen/pill_list_screen.dart';
 
@@ -64,7 +64,7 @@ class BottomTapBar extends StatelessWidget {
                 width: width * 0.018,
               ),
               borderRadius: BorderRadius.circular(width * 0.1),
-              insets: EdgeInsets.symmetric(horizontal: width * 0.05),
+              insets: EdgeInsets.symmetric(horizontal: - width * 0.04),
             ),
             indicatorPadding: EdgeInsets.only(bottom: height * 0.016),
             //label color
