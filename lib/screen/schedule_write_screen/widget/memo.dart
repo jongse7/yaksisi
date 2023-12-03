@@ -17,15 +17,13 @@ class Memo extends StatelessWidget {
       fontWeight: FontWeight.w500,
     );
     return SizedBox(
-      width: width * 0.2,
-      height: height * 0.04,
+      width: width * 0.9,
       child: TextField(
         showCursor: false,
+        textAlignVertical: TextAlignVertical.top,
         style: TextStyle(color: Colors.black),
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.only(left: width * 0.05, bottom: width * 0.002),
-          hintText: "약 이름",
-          hintStyle: defaultTextStyle,
+          contentPadding: EdgeInsets.only(left: width * 0.02,top: height * 0.005,bottom: height * 0.1),
           prefixText: memo,
           prefixStyle: defaultTextStyle,
           filled: true,

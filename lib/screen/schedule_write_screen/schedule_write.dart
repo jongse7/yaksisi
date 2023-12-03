@@ -35,17 +35,29 @@ class _ScheduleWriteState extends State<ScheduleWrite> {
                     pillName: pillName,
                   ),
                   _Line(),
-                  _Duration(),
+                  _Duration(
+                    startDay: startDay,
+                    endDay: endDay,
+                    onPressed: _selectStartDay,
+                  ),
                   _Line(),
-                  VariousOfPills(),
+                  VariousOfPills(
+                    onChanged: changePillVarious,
+                  ),
                   _Line(),
-                  _SelectPillNumber(),
+                  _SelectPillNumber(
+                    onChanged: changePillNumber,
+                  ),
                   _Line(),
                   _SelectDay(),
                   _Line(),
-                  _SelectTime(),
+                  _SelectTime(pillNumber: pillNumber),
                   _Line(),
-                  _Memo(onChanged: changeMemo,memo: memo,),
+                  _Memo(
+                    onChanged: changeMemo,
+                    memo: memo,
+                  ),
+                  _CancelAndStoreButton(),
                 ],
               ),
             ),
@@ -54,6 +66,24 @@ class _ScheduleWriteState extends State<ScheduleWrite> {
       ),
     );
   }
+
+  Map<String, dynamic> dosage = {
+    "약 이름": "",
+    "시작일": "",
+    "종료일": "",
+    "투약 개수": 0,
+    "투약 횟수": 0,
+    "투약 요일": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+    ],
+    "투약 시간": "",
+  };
 
   String pillName = '';
 
@@ -64,12 +94,62 @@ class _ScheduleWriteState extends State<ScheduleWrite> {
     });
   }
 
+  // 투약 기간, 시작일, 종료일
+  DateTime startDay = DateTime.now();
+  DateTime endDay = DateTime.now().add(const Duration(days: 7));
+
+  Future<void> _selectStartDay() async {
+    final selectedDate = await showDatePicker(
+      context: context,
+      initialDate: startDay,
+      firstDate: DateTime.now(), // 시작 날짜는 현재 날짜 이후여야 함
+      lastDate: DateTime.now().add(Duration(days: 365 * 2)), // 2년 후까지만 선택 가능
+    );
+    if (selectedDate != null) {
+      setState(() {
+        startDay = selectedDate;
+      });
+    }
+  }
+
+  Future<void> _selectEndDay() async {
+    final selectedDate = await showDatePicker(
+      context: context,
+      initialDate: startDay,
+      firstDate: startDay, // 시작 날짜는 startDay 이후여야 함
+      lastDate: startDay.add(Duration(days: 365 * 2)), // startDay 2년 후까지만 선택 가능
+    );
+    if (selectedDate != null) {
+      setState(() {
+        endDay = selectedDate;
+      });
+    }
+  }
+
   String memo = '';
 
   // memo 입력값 받는 콜백
   void changeMemo(value) {
     setState(() {
       memo = value;
+    });
+  }
+
+  // 투약 개수 입력
+  int pillVarious = 0;
+
+  void changePillVarious(value) {
+    setState(() {
+      pillVarious = value;
+    });
+  }
+
+  // 투약 횟수 입력
+  int pillNumber = 0;
+
+  void changePillNumber(value) {
+    setState(() {
+      pillNumber = value;
     });
   }
 }
@@ -179,7 +259,15 @@ class _PillName extends StatelessWidget {
 
 // 투약 기간
 class _Duration extends StatelessWidget {
-  const _Duration({super.key});
+  final DateTime startDay;
+  final DateTime endDay;
+  final VoidCallback onPressed;
+
+  const _Duration(
+      {required this.startDay,
+      required this.endDay,
+      required this.onPressed,
+      super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -187,14 +275,91 @@ class _Duration extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     return _Frame(
       contentTitle: "투약 기간",
-      middleContent: Container(),
+      middleContent: Column(
+        children: [
+          Row(
+            children: [
+              Text(
+                '시작 날짜',
+                style: TextStyle(
+                  color: Colors.red,
+                  fontSize: width * 0.045,
+                ),
+              ),
+              SizedBox(
+                width: width * 0.05,
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  side: BorderSide(
+                    color: Colors.white,
+                    width: width * 0.002,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(width * 0.025),
+                    ),
+                  ),
+                ),
+                onPressed: onPressed,
+                child: Text(
+                  "${startDay.year.toString()}-${startDay.month.toString().padLeft(2, '0')}-${startDay.day.toString().padLeft(2, '0')},",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: width * 0.04,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Text(
+                '종료 날짜',
+                style: TextStyle(
+                  color: Colors.blue,
+                  fontSize: width * 0.045,
+                ),
+              ),
+              SizedBox(
+                width: width * 0.05,
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  side: BorderSide(
+                    color: Colors.white,
+                    width: width * 0.002,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(width * 0.025),
+                    ),
+                  ),
+                ),
+                onPressed: onPressed,
+                child: Text(
+                  "${endDay.year.toString()}-${endDay.month.toString().padLeft(2, '0')}-${endDay.day.toString().padLeft(2, '0')},",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: width * 0.04,
+                  ),
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 }
 
 // 투약 개수
 class VariousOfPills extends StatelessWidget {
-  const VariousOfPills({super.key});
+  final ValueChanged onChanged;
+
+  const VariousOfPills({required this.onChanged, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -208,6 +373,7 @@ class VariousOfPills extends StatelessWidget {
       middleContent: Row(
         children: [
           GroupButton(
+            valueChanged: onChanged,
             buttonWidth: width * 0.14,
             buttonLables: buttonLables,
             buttonValues: buttonValues,
@@ -220,7 +386,9 @@ class VariousOfPills extends StatelessWidget {
 
 // 투약 횟수 선택
 class _SelectPillNumber extends StatelessWidget {
-  const _SelectPillNumber({super.key});
+  final ValueChanged onChanged;
+
+  const _SelectPillNumber({required this.onChanged, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -234,6 +402,7 @@ class _SelectPillNumber extends StatelessWidget {
       middleContent: Row(
         children: [
           GroupButton(
+            valueChanged: onChanged,
             buttonWidth: width * 0.2,
             buttonLables: dayNumder,
             buttonValues: dayValue,
@@ -259,10 +428,10 @@ class _SelectDay extends StatelessWidget {
       '목',
     ];
     List<int> value1 = [
+      0,
       1,
       2,
       3,
-      4,
     ];
     List<String> dayOfTheWeek2 = [
       '금',
@@ -270,9 +439,9 @@ class _SelectDay extends StatelessWidget {
       '일',
     ];
     List<int> value2 = [
-      1,
-      2,
-      3,
+      4,
+      5,
+      6,
     ];
     return _Frame(
       contentTitle: "투약 요일 선택",
@@ -296,11 +465,41 @@ class _SelectDay extends StatelessWidget {
 
 // 투약 시간 선택
 class _SelectTime extends StatelessWidget {
-  const _SelectTime({super.key});
+  final int pillNumber;
+
+  const _SelectTime({required this.pillNumber, super.key});
 
   @override
   Widget build(BuildContext context) {
-    return _Frame(contentTitle: "투약 시간 선택", middleContent: Container());
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    return _Frame(
+      contentTitle: "투약 시간 선택",
+      middleContent: SizedBox(
+        width: 100,
+        height: 50,
+        child: ListView.builder(
+          itemCount: pillNumber,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: EdgeInsets.only(bottom: height * 0.02),
+              child: Row(
+                children: [
+                  Text(
+                    '시간${index + 1}',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: width * 0.03,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      ),
+    );
   }
 }
 
@@ -314,9 +513,73 @@ class _Memo extends StatelessWidget {
   Widget build(BuildContext context) {
     return _Frame(
       contentTitle: "메모",
-      middleContent: Memo(
-        onChanged: onChanged,
-        memo: memo,
+      middleContent: Center(
+        child: Memo(
+          onChanged: onChanged,
+          memo: memo,
+        ),
+      ),
+    );
+  }
+}
+
+class _CancelAndStoreButton extends StatelessWidget {
+  const _CancelAndStoreButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    return Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SizedBox(
+            width: width*0.25,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xff4D4D4D),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(width * 0.025),
+                  ),
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                '취소',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: width * 0.04,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: width*0.25,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xff51EE60),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(width * 0.025),
+                  ),
+                ),
+              ),
+              onPressed: () {},
+              child: Text(
+                '저장',style: TextStyle(
+                color: Colors.black,
+                fontSize: width * 0.04,
+                fontWeight: FontWeight.w700,
+              ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

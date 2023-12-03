@@ -1,12 +1,18 @@
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:flutter/material.dart';
 
-
 class GroupButton extends StatelessWidget {
   final double buttonWidth;
   final List<String> buttonLables;
   final List<int> buttonValues;
-  const GroupButton({required this.buttonWidth, required this.buttonLables, required this.buttonValues, super.key});
+  final ValueChanged valueChanged;
+
+  const GroupButton(
+      {required this.buttonWidth,
+      required this.buttonLables,
+      required this.buttonValues,
+        required this.valueChanged,
+      super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +35,7 @@ class GroupButton extends StatelessWidget {
           fontSize: width * 0.035,
         ),
       ),
-      radioButtonValue: (value) {
-        print(value);
-      },
+      radioButtonValue: valueChanged,
       selectedColor: Color(0xff11CE24),
       selectedBorderColor: Colors.black,
       unSelectedBorderColor: Color(0xff676767),
@@ -43,7 +47,12 @@ class GroupButton2 extends StatelessWidget {
   final double buttonWidth;
   final List<String> buttonLables;
   final List<int> buttonValueList;
-  const GroupButton2({required this.buttonWidth,required this.buttonLables, required this.buttonValueList, super.key});
+
+  const GroupButton2(
+      {required this.buttonWidth,
+      required this.buttonLables,
+      required this.buttonValueList,
+      super.key});
 
   @override
   Widget build(BuildContext context) {
