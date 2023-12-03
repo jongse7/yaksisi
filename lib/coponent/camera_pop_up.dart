@@ -37,7 +37,7 @@ class _CameraPopUpState extends State<CameraPopUp> {
               topRight: 0,
               topLeft: 0,
               onPressed: () {
-                Navigator.of(context).push(
+                Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
                     builder: (_) => ScheduleWrite(),
                   ),

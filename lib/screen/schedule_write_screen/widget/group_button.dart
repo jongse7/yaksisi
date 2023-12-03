@@ -11,7 +11,7 @@ class GroupButton extends StatelessWidget {
       {required this.buttonWidth,
       required this.buttonLables,
       required this.buttonValues,
-        required this.valueChanged,
+      required this.valueChanged,
       super.key});
 
   @override
@@ -44,12 +44,14 @@ class GroupButton extends StatelessWidget {
 }
 
 class GroupButton2 extends StatelessWidget {
+  final ValueChanged valueChanged;
   final double buttonWidth;
   final List<String> buttonLables;
   final List<int> buttonValueList;
 
   const GroupButton2(
-      {required this.buttonWidth,
+      {required this.valueChanged,
+      required this.buttonWidth,
       required this.buttonLables,
       required this.buttonValueList,
       super.key});
@@ -78,9 +80,7 @@ class GroupButton2 extends StatelessWidget {
       ),
       buttonLables: buttonLables,
       buttonValuesList: buttonValueList,
-      checkBoxButtonValues: (values) {
-        print(values);
-      },
+      checkBoxButtonValues: valueChanged,
       horizontal: false,
       enableButtonWrap: false,
       absoluteZeroSpacing: false,

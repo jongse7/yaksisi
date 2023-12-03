@@ -38,7 +38,8 @@ class _ScheduleWriteState extends State<ScheduleWrite> {
                   _Duration(
                     startDay: startDay,
                     endDay: endDay,
-                    onPressed: _selectStartDay,
+                    onPressedStartDay: _selectStartDay,
+                    onPressedEndDay: _selectEndDay,
                   ),
                   _Line(),
                   VariousOfPills(
@@ -49,7 +50,7 @@ class _ScheduleWriteState extends State<ScheduleWrite> {
                     onChanged: changePillNumber,
                   ),
                   _Line(),
-                  _SelectDay(),
+                  _SelectDay(valueChanged: changePillDay,),
                   _Line(),
                   _SelectTime(pillNumber: pillNumber),
                   _Line(),
@@ -69,8 +70,8 @@ class _ScheduleWriteState extends State<ScheduleWrite> {
 
   Map<String, dynamic> dosage = {
     "약 이름": "",
-    "시작일": "",
-    "종료일": "",
+    "시작일": DateTime.now(),
+    "종료일": DateTime.now(),
     "투약 개수": 0,
     "투약 횟수": 0,
     "투약 요일": [
@@ -152,6 +153,20 @@ class _ScheduleWriteState extends State<ScheduleWrite> {
       pillNumber = value;
     });
   }
+
+  // 투약 요일 선택
+
+  var pillDay1 = [];
+  var pillDay2 = [];
+
+  void changePillDay(value) {
+    setState(() {
+      pillDay1 = value;
+      pillDay2 = value;
+      print(value);
+    });
+  }
+
 }
 
 // 구분선
@@ -192,8 +207,8 @@ class _Frame extends StatelessWidget {
             contentTitle,
             style: TextStyle(
               color: Colors.white,
-              fontSize: width * 0.04,
-              fontWeight: FontWeight.w500,
+              fontSize: width * 0.05,
+              fontWeight: FontWeight.w800,
             ),
           ),
         ),
@@ -261,12 +276,14 @@ class _PillName extends StatelessWidget {
 class _Duration extends StatelessWidget {
   final DateTime startDay;
   final DateTime endDay;
-  final VoidCallback onPressed;
+  final VoidCallback onPressedStartDay;
+  final VoidCallback onPressedEndDay;
 
   const _Duration(
       {required this.startDay,
       required this.endDay,
-      required this.onPressed,
+      required this.onPressedStartDay,
+        required this.onPressedEndDay,
       super.key});
 
   @override
@@ -302,9 +319,9 @@ class _Duration extends StatelessWidget {
                     ),
                   ),
                 ),
-                onPressed: onPressed,
+                onPressed: onPressedStartDay,
                 child: Text(
-                  "${startDay.year.toString()}-${startDay.month.toString().padLeft(2, '0')}-${startDay.day.toString().padLeft(2, '0')},",
+                  "${startDay.year.toString()}-${startDay.month.toString().padLeft(2, '0')}-${startDay.day.toString().padLeft(2, '0')}",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: width * 0.04,
@@ -338,9 +355,9 @@ class _Duration extends StatelessWidget {
                     ),
                   ),
                 ),
-                onPressed: onPressed,
+                onPressed: onPressedEndDay,
                 child: Text(
-                  "${endDay.year.toString()}-${endDay.month.toString().padLeft(2, '0')}-${endDay.day.toString().padLeft(2, '0')},",
+                  "${endDay.year.toString()}-${endDay.month.toString().padLeft(2, '0')}-${endDay.day.toString().padLeft(2, '0')}",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: width * 0.04,
@@ -415,7 +432,8 @@ class _SelectPillNumber extends StatelessWidget {
 
 // 투약 요일 선택
 class _SelectDay extends StatelessWidget {
-  const _SelectDay({super.key});
+  final ValueChanged valueChanged;
+  const _SelectDay({required this.valueChanged,super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -448,11 +466,13 @@ class _SelectDay extends StatelessWidget {
       middleContent: Column(
         children: [
           GroupButton2(
+            valueChanged: valueChanged,
             buttonWidth: width * 0.12,
             buttonLables: dayOfTheWeek1,
             buttonValueList: value1,
           ),
           GroupButton2(
+            valueChanged: valueChanged,
             buttonWidth: width * 0.12,
             buttonLables: dayOfTheWeek2,
             buttonValueList: value2,
@@ -476,8 +496,8 @@ class _SelectTime extends StatelessWidget {
     return _Frame(
       contentTitle: "투약 시간 선택",
       middleContent: SizedBox(
-        width: 100,
-        height: 50,
+        width: width * 0.1,
+        height: height * 0.12,
         child: ListView.builder(
           itemCount: pillNumber,
           itemBuilder: (context, index) {
@@ -489,7 +509,7 @@ class _SelectTime extends StatelessWidget {
                     '시간${index + 1}',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: width * 0.03,
+                      fontSize: width * 0.035,
                       fontWeight: FontWeight.w400,
                     ),
                   ),

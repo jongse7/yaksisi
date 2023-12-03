@@ -1,7 +1,8 @@
 // 캘린더 위젯
 
 import 'package:intl/intl.dart';
-import '../../const/color.dart';
+import 'package:yaksisi/screen/calendar_screen/model/model.dart';
+import '../../../const/color.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -37,6 +38,7 @@ class Calendar extends StatelessWidget {
     );
     return SingleChildScrollView(
       child: TableCalendar(
+        eventLoader: getEventsForDay,
           calendarBuilders: CalendarBuilders(
           dowBuilder: (context, day) {
         switch(day.weekday){
