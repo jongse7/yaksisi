@@ -20,8 +20,6 @@ class Calendar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(events.keys);
-    print(events.values);
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     final defaultBoxDeco = BoxDecoration(
@@ -94,8 +92,9 @@ class Calendar extends StatelessWidget {
                 );
             }
           },
-          markerBuilder: (BuildContext context, date, events) {
+          markerBuilder: (context, date, events) {
             if (events.isEmpty) return SizedBox();
+            if (){},
             return Column(
               children: [
                 SizedBox(

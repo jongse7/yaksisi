@@ -78,8 +78,8 @@ class _ScheduleWriteState extends State<ScheduleWrite> {
 
   Map<String, dynamic> dosage = {
     "약 이름": "",
-    "시작일": DateTime.now(),
-    "종료일": DateTime.now().add(const Duration(days: 7)),
+    "시작일": DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day),
+    "종료일": DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day + 7),
     "투약 개수": 0,
     "투약 횟수": 0,
     "투약 요일": [
@@ -106,8 +106,8 @@ class _ScheduleWriteState extends State<ScheduleWrite> {
   }
 
   // 투약 기간, 시작일, 종료일
-  DateTime startDay = DateTime.now();
-  DateTime endDay = DateTime.now().add(const Duration(days: 7));
+  DateTime startDay = DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day);
+  DateTime endDay = DateTime(DateTime.now().year,DateTime.now().month, DateTime.now().day + 7);
 
   Future<void> _selectStartDay() async {
     final selectedDate = await showDatePicker(
@@ -673,7 +673,6 @@ class _CancelAndStoreButton extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                print(dosage);
                 getDate(dosage);
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(

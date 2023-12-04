@@ -5,6 +5,9 @@ class Event {
 }
 
 void getDate(Map<String, dynamic> dosage) {
+  // 새로운 event 생성
+  Event currentEvent = Event(dosage);
+
   // 일 차이 계산
   Duration difference = dosage["종료일"].difference(dosage["시작일"]);
 
@@ -17,10 +20,10 @@ void getDate(Map<String, dynamic> dosage) {
 
     if (events.containsKey(currentDay)) {
       // 이미 해당 날짜에 이벤트가 있는 경우의 처리
-      events[currentDay]!.add(Event(dosage));
+      events[currentDay]!.add(currentEvent);
     } else {
       // 해당 날짜에 이벤트가 없는 경우 새로운 리스트를 생성하여 추가
-      events.addAll({currentDay: [Event(dosage)]});
+      events[currentDay] = [currentEvent];
     }
   }
 }
@@ -29,6 +32,7 @@ Map<DateTime, List<Event>> events = {
 };
 
 List<Event> getEventsForDay(DateTime day) {
-  return events[day] ?? [];
+  DateTime currentDay = DateTime(day.year,day.month,day.day);
+  return events[currentDay] ?? [];
 }
 
