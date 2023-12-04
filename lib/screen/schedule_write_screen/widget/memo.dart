@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+// 메모장
+
 class Memo extends StatelessWidget {
   final ValueChanged onChanged;
   final String memo;

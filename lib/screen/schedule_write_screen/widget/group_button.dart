@@ -1,6 +1,7 @@
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:flutter/material.dart';
 
+// 그룹 버튼(중복 선택 X)
 class GroupButton extends StatelessWidget {
   final double buttonWidth;
   final List<String> buttonLables;
@@ -43,6 +44,7 @@ class GroupButton extends StatelessWidget {
   }
 }
 
+// 그룹 버튼(중복 선택 O)
 class GroupButton2 extends StatelessWidget {
   final ValueChanged valueChanged;
   final double buttonWidth;

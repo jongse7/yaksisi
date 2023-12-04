@@ -1,6 +1,7 @@
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:flutter/material.dart';
 import 'package:yaksisi/screen/schedule_write_screen/widget/memo.dart';
+import '../../coponent/navigator_bar.dart';
 import 'widget/group_button.dart';
 import 'widget/pill_name_textfield.dart';
 
@@ -14,8 +15,14 @@ class ScheduleWrite extends StatefulWidget {
 class _ScheduleWriteState extends State<ScheduleWrite> {
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery
+        .of(context)
+        .size
+        .width;
+    double height = MediaQuery
+        .of(context)
+        .size
+        .height;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.black,
@@ -84,6 +91,7 @@ class _ScheduleWriteState extends State<ScheduleWrite> {
       6,
     ],
     "투약 시간": "",
+    "메모": "",
   };
 
   String pillName = '';
@@ -92,6 +100,7 @@ class _ScheduleWriteState extends State<ScheduleWrite> {
   void changePillName(value) {
     setState(() {
       pillName = value;
+      dosage["약 이름"] = pillName;
     });
   }
 
@@ -109,6 +118,7 @@ class _ScheduleWriteState extends State<ScheduleWrite> {
     if (selectedDate != null) {
       setState(() {
         startDay = selectedDate;
+        dosage["시작일"] = startDay;
       });
     }
   }
@@ -123,18 +133,13 @@ class _ScheduleWriteState extends State<ScheduleWrite> {
     if (selectedDate != null) {
       setState(() {
         endDay = selectedDate;
+        dosage["종료일"] = endDay;
       });
     }
   }
 
   String memo = '';
 
-  // memo 입력값 받는 콜백
-  void changeMemo(value) {
-    setState(() {
-      memo = value;
-    });
-  }
 
   // 투약 개수 입력
   int pillVarious = 0;
@@ -142,6 +147,7 @@ class _ScheduleWriteState extends State<ScheduleWrite> {
   void changePillVarious(value) {
     setState(() {
       pillVarious = value;
+      dosage["투약 개수"] = pillVarious;
     });
   }
 
@@ -151,6 +157,7 @@ class _ScheduleWriteState extends State<ScheduleWrite> {
   void changePillNumber(value) {
     setState(() {
       pillNumber = value;
+      dosage["투약 횟수"] = pillNumber;
     });
   }
 
@@ -163,7 +170,18 @@ class _ScheduleWriteState extends State<ScheduleWrite> {
     setState(() {
       pillDay1 = value;
       pillDay2 = value;
-      print(value);
+      List<int> pillDay = [];
+      pillDay.addAll(pillDay1 as Iterable<int>);
+      pillDay.addAll(pillDay2 as Iterable<int>);
+      dosage["투약 요일"] = pillDay;
+    });
+  }
+
+  // memo 입력값 받는 콜백
+  void changeMemo(value) {
+    setState(() {
+      memo = value;
+      dosage["메모"] = memo;
     });
   }
 
@@ -175,8 +193,14 @@ class _Line extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery
+        .of(context)
+        .size
+        .width;
+    double height = MediaQuery
+        .of(context)
+        .size
+        .height;
     return Container(
       color: const Color(0xff414141),
       width: double.infinity,
@@ -196,8 +220,14 @@ class _Frame extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery
+        .of(context)
+        .size
+        .width;
+    double height = MediaQuery
+        .of(context)
+        .size
+        .height;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -227,8 +257,14 @@ class _Title extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery
+        .of(context)
+        .size
+        .width;
+    double height = MediaQuery
+        .of(context)
+        .size
+        .height;
     return Align(
       alignment: Alignment.topLeft,
       child: Padding(
@@ -256,8 +292,14 @@ class _PillName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery
+        .of(context)
+        .size
+        .width;
+    double height = MediaQuery
+        .of(context)
+        .size
+        .height;
     return _Frame(
       contentTitle: '약 이름',
       middleContent: Row(
@@ -279,17 +321,22 @@ class _Duration extends StatelessWidget {
   final VoidCallback onPressedStartDay;
   final VoidCallback onPressedEndDay;
 
-  const _Duration(
-      {required this.startDay,
-      required this.endDay,
-      required this.onPressedStartDay,
-        required this.onPressedEndDay,
-      super.key});
+  const _Duration({required this.startDay,
+    required this.endDay,
+    required this.onPressedStartDay,
+    required this.onPressedEndDay,
+    super.key});
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery
+        .of(context)
+        .size
+        .width;
+    double height = MediaQuery
+        .of(context)
+        .size
+        .height;
     return _Frame(
       contentTitle: "투약 기간",
       middleContent: Column(
@@ -321,7 +368,9 @@ class _Duration extends StatelessWidget {
                 ),
                 onPressed: onPressedStartDay,
                 child: Text(
-                  "${startDay.year.toString()}-${startDay.month.toString().padLeft(2, '0')}-${startDay.day.toString().padLeft(2, '0')}",
+                  "${startDay.year.toString()}-${startDay.month.toString()
+                      .padLeft(2, '0')}-${startDay.day.toString().padLeft(
+                      2, '0')}",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: width * 0.04,
@@ -357,7 +406,8 @@ class _Duration extends StatelessWidget {
                 ),
                 onPressed: onPressedEndDay,
                 child: Text(
-                  "${endDay.year.toString()}-${endDay.month.toString().padLeft(2, '0')}-${endDay.day.toString().padLeft(2, '0')}",
+                  "${endDay.year.toString()}-${endDay.month.toString().padLeft(
+                      2, '0')}-${endDay.day.toString().padLeft(2, '0')}",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: width * 0.04,
@@ -382,8 +432,14 @@ class VariousOfPills extends StatelessWidget {
   Widget build(BuildContext context) {
     List<String> buttonLables = ['1정', '2정', '3정', '4정'];
     List<int> buttonValues = [1, 2, 3, 4];
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery
+        .of(context)
+        .size
+        .width;
+    double height = MediaQuery
+        .of(context)
+        .size
+        .height;
 
     return _Frame(
       contentTitle: "투약 개수",
@@ -409,8 +465,14 @@ class _SelectPillNumber extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery
+        .of(context)
+        .size
+        .width;
+    double height = MediaQuery
+        .of(context)
+        .size
+        .height;
     List<String> dayNumder = ['일 1회', '일 2회', '일 3회'];
     List<int> dayValue = [1, 2, 3];
 
@@ -433,12 +495,19 @@ class _SelectPillNumber extends StatelessWidget {
 // 투약 요일 선택
 class _SelectDay extends StatelessWidget {
   final ValueChanged valueChanged;
-  const _SelectDay({required this.valueChanged,super.key});
+
+  const _SelectDay({required this.valueChanged, super.key});
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery
+        .of(context)
+        .size
+        .width;
+    double height = MediaQuery
+        .of(context)
+        .size
+        .height;
     List<String> dayOfTheWeek1 = [
       '월',
       '화',
@@ -491,8 +560,14 @@ class _SelectTime extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery
+        .of(context)
+        .size
+        .width;
+    double height = MediaQuery
+        .of(context)
+        .size
+        .height;
     return _Frame(
       contentTitle: "투약 시간 선택",
       middleContent: SizedBox(
@@ -548,14 +623,20 @@ class _CancelAndStoreButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery
+        .of(context)
+        .size
+        .width;
+    double height = MediaQuery
+        .of(context)
+        .size
+        .height;
     return Center(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SizedBox(
-            width: width*0.25,
+            width: width * 0.25,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color(0xff4D4D4D),
@@ -579,7 +660,7 @@ class _CancelAndStoreButton extends StatelessWidget {
             ),
           ),
           SizedBox(
-            width: width*0.25,
+            width: width * 0.25,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color(0xff51EE60),
@@ -589,9 +670,15 @@ class _CancelAndStoreButton extends StatelessWidget {
                   ),
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (_) => NavigatorBar(),
+                  ),
+                );
+              },
               child: Text(
-                '저장',style: TextStyle(
+                '저장', style: TextStyle(
                 color: Colors.black,
                 fontSize: width * 0.04,
                 fontWeight: FontWeight.w700,

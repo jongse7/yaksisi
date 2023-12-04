@@ -52,6 +52,11 @@ class _CameraPopUpState extends State<CameraPopUp> {
     final image = await ImagePicker().pickImage(
       source: ImageSource.camera,
     );
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (_) => ScheduleWrite(),
+      ),
+    );
   }
 }
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+// 약 이름 입력 받기
+
 class PillNameTextField extends StatelessWidget {
   final ValueChanged onChanged;
   final String pillName;
