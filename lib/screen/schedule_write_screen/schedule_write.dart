@@ -2,6 +2,7 @@ import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:flutter/material.dart';
 import 'package:yaksisi/screen/schedule_write_screen/widget/memo.dart';
 import '../../coponent/navigator_bar.dart';
+import '../calendar_screen/model/marker_model.dart';
 import 'widget/group_button.dart';
 import 'widget/pill_name_textfield.dart';
 
@@ -65,7 +66,7 @@ class _ScheduleWriteState extends State<ScheduleWrite> {
                     onChanged: changeMemo,
                     memo: memo,
                   ),
-                  _CancelAndStoreButton(),
+                  _CancelAndStoreButton(dosage: dosage,),
                 ],
               ),
             ),
@@ -78,7 +79,7 @@ class _ScheduleWriteState extends State<ScheduleWrite> {
   Map<String, dynamic> dosage = {
     "약 이름": "",
     "시작일": DateTime.now(),
-    "종료일": DateTime.now(),
+    "종료일": DateTime.now().add(const Duration(days: 7)),
     "투약 개수": 0,
     "투약 횟수": 0,
     "투약 요일": [
@@ -619,7 +620,8 @@ class _Memo extends StatelessWidget {
 }
 
 class _CancelAndStoreButton extends StatelessWidget {
-  const _CancelAndStoreButton({super.key});
+  final Map<String, dynamic> dosage;
+  const _CancelAndStoreButton({required this.dosage, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -671,6 +673,8 @@ class _CancelAndStoreButton extends StatelessWidget {
                 ),
               ),
               onPressed: () {
+                print(dosage);
+                getDate(dosage);
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
                     builder: (_) => NavigatorBar(),
